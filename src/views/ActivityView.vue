@@ -28,81 +28,156 @@
   </v-card>
 </v-col>
 </v-row>
-<v-row justify="center">
-<v-col
-  cols="12"
-  xs="11"
-  sm="10"
-  md="9"
-  lg="8"
-  xl="7"
+<v-container
+  v-for="(y, i) in katudou"
+  :key="i"
 >
-
-  <v-card
-    class="mx-auto"
-    tile
-    elevation="0"
+  <v-row justify="center">
+  <v-col
+    cols="12"
+    xs="11"
+    sm="10"
+    md="9"
+    lg="8"
+    xl="7"
   >
-    <v-card-title>2022年度</v-card-title>
 
-    <v-divider class="mt-n4 blue"></v-divider>
+    <v-card
+      class="mx-auto"
+      tile
+      elevation="0"
+    >
+      <v-card-title>{{ y.year }}年度</v-card-title>
 
-  </v-card>
-</v-col>
-</v-row>
-<v-row justify="center">
-<v-col
-  cols="12"
-  xs="11"
-  sm="10"
-  md="9"
-  lg="8"
-  xl="7"
->
+      <v-divider class="mt-n4 blue"></v-divider>
 
-  <v-card
-    class="mx-auto"
-    tile
-    elevation="0"
-    v-for="(y, i) in iinkai"
-    :key="i"
+    </v-card>
+  </v-col>
+  </v-row>
+  <v-row justify="center">
+  <v-col
+    cols="12"
+    xs="11"
+    sm="10"
+    md="9"
+    lg="8"
+    xl="7"
   >
-    <v-list-item three-line>
-      <v-list-item-content>
-        <v-list-item-title class="text-h6 mt-2">
-          {{ y.job }}委員会
-        </v-list-item-title>
-        <v-list-item-content class="text-body-2 mt-n2">
-          {{ y.comment }}
+
+    <v-card
+      class="mx-auto mt-n5 mb-3"
+      tile
+      elevation="0"
+      v-for="(a, n) in y.activity"
+      :key="n"
+      height="50px"
+    >
+      <v-list-item @click="showPDF(a, y.year)">
+        <v-list-item-content>
+          <v-list-item-title class="text-h6">
+            ・{{ a.month }}月度の活動
+          </v-list-item-title>
         </v-list-item-content>
-      </v-list-item-content>
 
-    </v-list-item>
+      </v-list-item>
 
-  </v-card>
-</v-col>
+    </v-card>
+  </v-col>
+  </v-row>
+</v-container>
+<v-row justify="space-around">
+  <v-dialog
+    v-model="pdfDialog"
+  >
+    <v-card>
+      <v-toolbar
+        color="primary"
+        dark
+      >
+        <p class="text-h5 mt-4 ml-3">{{ pdfYear }}年 {{ pdfMonth }}月</p>
+        <v-spacer />
+        <v-btn
+          text
+          @click="pdfDialog = false"
+        >Close</v-btn>
+      </v-toolbar>
+      <v-card-text>
+        <div class="d-flex align-center justify-center">
+            <v-btn
+                outlined
+                @click="prevPage"
+                :disabled="previewer.page_current <= 1"
+            >
+                戻る
+            </v-btn>
+            <div class="mx-6">
+                {{ previewer.page_current }} / {{ previewer.page_end }}
+            </div>
+            <v-btn
+                outlined
+                @click="nextPage"
+                :disabled="previewer.page_current === previewer.page_end"
+            >
+                次へ
+            </v-btn>
+        </div>
+        <pdf
+            :src="previewer.src"
+            @num-pages="previewer.page_end = $event"
+            :page="previewer.page_current"
+        ></pdf>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
 </v-row>
 </v-container>
 </template>
 
 <script>
-import constants from '@/common/iinkai'
+import pdf from 'vue-pdf'
+import constants from '@/common/katudou'
 
 export default {
-  name: 'CommitteeView',
+  name: 'ActivityView',
 
   components: {
-    //
+    pdf
   },
   data: () => ({
-    iinkai: constants.iinkai,
+    katudou: constants.katudou,
     loading: false,
-    selection: 1
+    selection: 1,
+    pdfDialog: false,
+    pdfYear: 0,
+    pdfMonth: 0,
+    file_preview: true,
+    previewer: {
+      src: 'activity/202204.pdf',
+      type: null,
+      page_current: 1,
+      page_end: null
+    }
   }),
-
   methods: {
-    showPDF (date) {
-      //
+    showPDF (data, year) {
+      // console.log('hi')
+      const filePath = `activity/${data.fileName}.pdf`
+      this.perviewer = {
+        src: filePath,
+        type: null,
+        page_current: 1,
+        page_end: null
+      }
+      console.log(filePath)
+      this.pdfYear = year
+      this.pdfMonth = data.month
+      this.pdfDialog = true
+    },
+    prevPage () {
+      this.previewer.page_current -= 1
+    },
+    nextPage () {
+      this.previewer.page_current += 1
     }
   }
 }
