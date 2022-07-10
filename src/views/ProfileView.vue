@@ -22,7 +22,7 @@
       <v-card-title
         class="font-weight-bold"
       >
-        本部 <span class="font-weight-regular ml-4" style="color:#87C1DA"> HEADQUARTERS</span>
+        本部<span class="font-weight-regular ml-4" style="color:#87C1DA">HEADQUARTERS</span>
       </v-card-title>
     </v-img>
   </v-card>
