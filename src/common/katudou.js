@@ -4,8 +4,16 @@ export default {
       year: 2022,
       activity: [
         {
+          month: '6',
+          fileName: '202206'
+        },
+        {
           month: '5',
-          fileName: '5月 活動報告 - pdf var.'
+          fileName: '202205'
+        },
+        {
+          month: '4',
+          fileName: '202204'
         }
       ]
     }
