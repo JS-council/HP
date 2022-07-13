@@ -91,7 +91,7 @@
   >
     <v-card>
       <v-toolbar
-        :color="pdfColor ? 'blue' : pdfColor"
+        :color="pdfColor ? pdfColor : 'blue'"
         dark
       >
         <p class="text-h5 mt-4 ml-3">{{ pdfYear }}年 {{ pdfMonth }}月</p>
