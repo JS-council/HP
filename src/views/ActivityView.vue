@@ -157,7 +157,7 @@ export default {
       page_current: 1,
       page_end: null
     },
-    pdfColor: red
+    pdfColor: 'red'
   }),
   methods: {
     showPDF (data, year) {
