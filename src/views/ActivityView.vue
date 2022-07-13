@@ -163,7 +163,7 @@ export default {
     showPDF (data, year) {
       // console.log('hi')
       const filePath = `activity/${data.fileName}.pdf`
-      this.perviewer = {
+      this.previewer = {
         src: filePath,
         type: null,
         page_current: 1,
