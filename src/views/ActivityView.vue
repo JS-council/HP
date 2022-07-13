@@ -91,7 +91,7 @@
   >
     <v-card>
       <v-toolbar
-        color="primary"
+        :color="pdfColor ? 'blue' : pdfColor"
         dark
       >
         <p class="text-h5 mt-4 ml-3">{{ pdfYear }}年 {{ pdfMonth }}月</p>
@@ -156,7 +156,8 @@ export default {
       type: null,
       page_current: 1,
       page_end: null
-    }
+    },
+    pdfColor: red
   }),
   methods: {
     showPDF (data, year) {
@@ -172,6 +173,7 @@ export default {
       this.pdfYear = year
       this.pdfMonth = data.month
       this.pdfDialog = true
+      this.pdfColor = data.color
     },
     prevPage () {
       this.previewer.page_current -= 1
