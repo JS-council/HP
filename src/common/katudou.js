@@ -10,7 +10,7 @@ export default {
         },
         {
           month: '6',
-          color: '#0000ff',
+          color: '#0000FF',
           fileName: '202206'
         },
         {
